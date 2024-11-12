@@ -2,10 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mobileapp/app/controllers/auth_controller.dart';
 import 'package:mobileapp/app/modules/SignUp/controllers/signup_controller.dart';
 
-class SignUpView extends StatelessWidget {
-  final SignUpController controller = Get.put(SignUpController());
+class SignUpView extends GetView<SignUpController> {
+  final authC = Get.find<AuthController>();
 
   @override
   Widget build(BuildContext context) {
@@ -66,11 +67,8 @@ class SignUpView extends StatelessWidget {
             ),
             SizedBox(height: 20),
             Obx(() => ElevatedButton(
-                  onPressed: controller.isLoading.value
-                      ? null
-                      : () {
-                          controller.signUp();
-                        },
+              onPressed: () => authC.signup(controller.emailController.text, controller.passwordController.text),
+
                   child: controller.isLoading.value
                       ? CircularProgressIndicator(
                           color: Colors.white,

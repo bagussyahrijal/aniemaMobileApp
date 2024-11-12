@@ -13,7 +13,7 @@ const WelcomeView({super.key});
   Widget build(BuildContext context) {
     // Memulai delay navigasi setelah build pertama kali selesai
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Future.delayed(const Duration(seconds: 3), () {
+      Future.delayed(const Duration(seconds: 2), () {
         Get.off(HomeView());
       });
     });

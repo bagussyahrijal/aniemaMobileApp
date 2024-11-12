@@ -1,4 +1,5 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, use_key_in_widget_constructors
+// File: home_view.dart
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -22,48 +23,25 @@ class HomeView extends GetView<HomeController> {
           height: 100,
         ),
       ),
-      body: PageView(
-        controller: controller.pageController,
-        onPageChanged: controller.changePage,
-        children: [
-          SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildIconRow(),
-                  SizedBox(height: 25),
-                  _buildTitleRow('Daftar Paket', PencarianView()), // Removed navigation to AllPaketView
-                  SizedBox(height: 15),
-                  _buildPackageList(),
-                  SizedBox(height: 15),
-                  _buildTitleRow('Gallery', GalleryView()), // You can keep GalleryView if needed
-                  SizedBox(height: 15),
-                ],
-              ),
-            ),
-          ),
-          PemesananView(),
-          PencarianView(),
-          TransaksiView(),
-          ProfilView(),
-        ],
-      ),
+      body: Obx(() {
+        return IndexedStack(
+          index: controller.selectedIndexBottomBar.value,
+          children: [
+            _buildHomePage(),
+            PemesananView(),
+            PencarianView(),
+            TransaksiView(),
+            ProfilView(),
+          ],
+        );
+      }),
       bottomNavigationBar: Obx(
         () => BottomNavigationBar(
           currentIndex: controller.selectedIndexBottomBar.value,
           unselectedItemColor: Colors.black,
           selectedItemColor: Color.fromRGBO(60, 42, 152, 1),
           type: BottomNavigationBarType.fixed,
-          onTap: (index) {
-            controller.changePage(index);
-            controller.pageController.animateToPage(
-              index,
-              duration: Duration(milliseconds: 500),
-              curve: Curves.easeInOutCirc,
-            );
-          },
+          onTap: controller.changePage, // Panggil metode langsung tanpa animasi
           items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
@@ -91,7 +69,27 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-  // Widget for row of icons at the top
+  Widget _buildHomePage() {
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildIconRow(),
+            SizedBox(height: 25),
+            _buildTitleRow('Daftar Paket', PencarianView()),
+            SizedBox(height: 15),
+            _buildPackageList(),
+            SizedBox(height: 15),
+            _buildTitleRow('Gallery', GalleryView()),
+            SizedBox(height: 15),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildIconRow() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -105,7 +103,6 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-  // Helper widget for each icon container with label
   Widget _buildIconContainer(IconData icon, String label) {
     return Container(
       decoration: BoxDecoration(
@@ -136,7 +133,6 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-  // Widget for titles with "See All" button
   Widget _buildTitleRow(String title, Widget targetPage) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -152,7 +148,7 @@ class HomeView extends GetView<HomeController> {
             ),
           ),
           TextButton(
-            onPressed: () => Get.to(() => targetPage), // Arahkan ke PencarianView
+            onPressed: () => Get.to(() => targetPage),
             child: Text(
               'Lihat Semua',
               style: TextStyle(
@@ -166,7 +162,6 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-  // Widget for horizontal list of packages
   Widget _buildPackageList() {
     return SizedBox(
       height: 326,
@@ -186,86 +181,83 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-// Helper widget for each package container
-Widget _buildPackageContainer(int index) {
-  final paket = controller.paket[index];
-  return Container(
-    width: 226,
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(10),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.grey.withOpacity(0.3),
-          spreadRadius: 2,
-          blurRadius: 5,
-          offset: Offset(0, 3),
-        ),
-      ],
-    ),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Image section
-        Container(
-          height: 150,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(paket.image),
-              fit: BoxFit.cover,
-            ),
-            borderRadius: BorderRadius.vertical(
-              top: Radius.circular(10),
-            ),
+  Widget _buildPackageContainer(int index) {
+    final paket = controller.paket[index];
+    return Container(
+      width: 226,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.3),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: Offset(0, 3),
           ),
-        ),
-        // Text section
-        Padding(
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                paket.nama,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            height: 150,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(paket.image),
+                fit: BoxFit.cover,
               ),
-              SizedBox(height: 5),
-              _buildInfoRow(Icons.date_range_outlined, paket.tanggal),
-              SizedBox(height: 5),
-              _buildInfoRow(Icons.airplanemode_active_outlined, paket.transportasi),
-              SizedBox(height: 10),
-              _buildPriceRow(paket.harga),  // Pass the price from the paket object
-            ],
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(10),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  paket.nama,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 5),
+                _buildInfoRow(Icons.date_range_outlined, paket.tanggal),
+                SizedBox(height: 5),
+                _buildInfoRow(Icons.airplanemode_active_outlined, paket.transportasi),
+                SizedBox(height: 10),
+                _buildPriceRow(paket.harga),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPriceRow(double harga) {
+    return Row(
+      children: [
+        Icon(
+          Icons.monetization_on_outlined,
+          size: 20,
+          color: Colors.grey,
+        ),
+        SizedBox(width: 8),
+        Text(
+          'Rp ${harga.toStringAsFixed(0)}',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
           ),
         ),
       ],
-    ),
-  );
-}
-
-// New helper widget to display the price
-Widget _buildPriceRow(double harga) {
-  return Row(
-    children: [
-      Icon(
-        Icons.monetization_on_outlined,
-        size: 20,
-        color: Colors.grey,
-      ),
-      SizedBox(width: 8),
-      Text(
-        'Rp ${harga.toStringAsFixed(0)}',  // Format the price to show as currency
-        style: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
-          color: Colors.green,
-        ),
-      ),
-    ],
-  );
+    );
+  }
 }
 
 
@@ -285,4 +277,4 @@ Widget _buildPriceRow(double harga) {
       ],
     );
   }
-}
+

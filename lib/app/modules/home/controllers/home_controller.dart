@@ -1,14 +1,10 @@
-// ignore_for_file: avoid_print
-
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mobileapp/app/services/paket_service.dart'; // Import PaketService
+import 'package:mobileapp/app/services/paket_service.dart';
 import 'package:mobileapp/app/data/paket.dart';
 
 class HomeController extends GetxController {
   final String asset = "assets/logo.png";
   final RxInt selectedIndexBottomBar = 0.obs;
-  final PageController pageController = PageController();
 
   // Use GetX dependency injection to initialize the service
   final PaketService paketService = PaketService();
@@ -37,7 +33,7 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    loadPaket(); // Load paket when the controller is initialized
+    loadPaket(); 
   }
 
   // Getter for paket list

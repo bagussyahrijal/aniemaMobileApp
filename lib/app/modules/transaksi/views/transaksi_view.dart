@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobileapp/app/modules/transaksi/controllers/transaksi_controller.dart';
 
-
 class TransaksiView extends StatelessWidget {
   // Inisialisasi TransaksiController
   final TransaksiController transaksiController = Get.put(TransaksiController());
@@ -14,22 +13,33 @@ class TransaksiView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Pemesanan'),
-        bottom: TabBar(
-          controller: transaksiController.tabController,
-          tabs: [
-            Tab(text: 'Tagihan'),
-            Tab(text: 'Tabungan'),
-            Tab(text: 'Lunas'),
-          ],
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(50), // Tinggi TabBar
+          child: GetBuilder<TransaksiController>(
+            builder: (controller) {
+              return TabBar(
+                controller: controller.tabController,
+                tabs: [
+                  Tab(text: 'Tagihan'),
+                  Tab(text: 'Tabungan'),
+                  Tab(text: 'Lunas'),
+                ],
+              );
+            },
+          ),
         ),
       ),
-      body: TabBarView(
-        controller: transaksiController.tabController,
-        children: [
-          TransaksiListView(status: 'Tagihan', transaksiController: transaksiController),
-          TransaksiListView(status: 'Tabungan', transaksiController: transaksiController),
-          TransaksiListView(status: 'Lunas', transaksiController: transaksiController),
-        ],
+      body: GetBuilder<TransaksiController>(
+        builder: (controller) {
+          return TabBarView(
+            controller: controller.tabController,
+            children: [
+              TransaksiListView(status: 'Tagihan', transaksiController: transaksiController),
+              TransaksiListView(status: 'Tabungan', transaksiController: transaksiController),
+              TransaksiListView(status: 'Lunas', transaksiController: transaksiController),
+            ],
+          );
+        },
       ),
     );
   }
@@ -43,7 +53,6 @@ class TransaksiListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Gunakan Obx untuk memantau perubahan pada data
     return Obx(() {
       final transaksi = transaksiController.getTransaksi(status);
 

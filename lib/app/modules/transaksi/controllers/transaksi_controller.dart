@@ -7,7 +7,7 @@ class TransaksiController extends GetxController with SingleGetTickerProviderMix
   // Definisikan TabController
   late TabController tabController;
 
-  // Daftar reaktif untuk setiap status transaksi (kosong pada awalnya)
+  // Daftar reaktif untuk setiap status transaksi
   var tagihanList = <Map<String, String>>[].obs;
   var tabunganList = <Map<String, String>>[].obs;
   var lunasList = <Map<String, String>>[].obs;
@@ -19,7 +19,7 @@ class TransaksiController extends GetxController with SingleGetTickerProviderMix
     // Inisialisasi TabController dengan 3 tab
     tabController = TabController(length: 3, vsync: this);
 
-    // Tidak ada data transaksi awal, kosong
+    // Tidak ada data transaksi awal, bisa diubah jika mengambil dari API
     fetchData();
   }
 
@@ -31,7 +31,7 @@ class TransaksiController extends GetxController with SingleGetTickerProviderMix
 
   // Method untuk mengambil data transaksi
   void fetchData() {
-    // Data kosong, bisa diubah nanti untuk mengambil dari API atau database
+    // Data kosong, bisa diubah untuk mengambil dari API atau database
     tagihanList.assignAll([]);
     tabunganList.assignAll([]);
     lunasList.assignAll([]);

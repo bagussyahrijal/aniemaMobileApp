@@ -2,13 +2,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mobileapp/app/controllers/auth_controller.dart';
 import 'package:mobileapp/app/modules/profil/controllers/profil_controller.dart';
 import 'package:mobileapp/app/routes/app_pages.dart';
 
 class ProfilView extends GetView<ProfilController> {
-  // Daftarkan controller dengan Get.put()
+
   @override
   final ProfilController controller = Get.put(ProfilController());
+  final authC = Get.find<AuthController>();
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +18,10 @@ class ProfilView extends GetView<ProfilController> {
     bool isLoggedIn = controller.isLoggedIn.value;
 
     return Scaffold(
-      backgroundColor: const Color(0xFF3C2A98), // Purple background
+      backgroundColor: const Color(0xFF3C2A98), 
+      appBar: AppBar(actions: [
+        IconButton(onPressed: authC.logout, icon:Icon(Icons.logout_outlined))
+      ],),// Purple background
       body: Center(
         child:
             isLoggedIn ? _buildAfterLogin(context) : _buildBeforeLogin(context),

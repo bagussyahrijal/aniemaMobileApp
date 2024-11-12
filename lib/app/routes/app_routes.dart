@@ -11,4 +11,5 @@ abstract class Routes {
   static const GALLERY = '/gallery';
   static const LOGIN = '/login'; // Definisikan rute login
   static const SIGNUP = '/signup'; // Definisikan rute signup
+  static const PAKETDETAIL = '/paketdetail';
 }

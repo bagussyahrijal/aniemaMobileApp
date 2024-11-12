@@ -38,7 +38,7 @@ class LoginController extends GetxController {
       // Simulate login request
       await Future.delayed(Duration(seconds: 2)); // Simulate network delay
 
-      // Replace this with actual API call and response handling
+      
       bool loginSuccess = true; // Set this based on API response
 
       if (loginSuccess) {
