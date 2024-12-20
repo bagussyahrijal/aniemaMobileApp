@@ -9,6 +9,8 @@ import 'package:mobileapp/app/modules/pemesanan/views/pemesanan_view.dart';
 import 'package:mobileapp/app/modules/pencarian/views/pencarian_view.dart';
 import 'package:mobileapp/app/modules/profil/views/profil_view.dart';
 import 'package:mobileapp/app/modules/transaksi/views/transaksi_view.dart';
+import 'package:mobileapp/app/routes/app_pages.dart';
+import 'package:mobileapp/app/widgets/promo_banner_slider.dart';
 
 class HomeView extends GetView<HomeController> {
   @override
@@ -37,6 +39,7 @@ class HomeView extends GetView<HomeController> {
       }),
       bottomNavigationBar: Obx(
         () => BottomNavigationBar(
+          backgroundColor: Colors.white,
           currentIndex: controller.selectedIndexBottomBar.value,
           unselectedItemColor: Colors.black,
           selectedItemColor: Color.fromRGBO(60, 42, 152, 1),
@@ -70,12 +73,19 @@ class HomeView extends GetView<HomeController> {
   }
 
   Widget _buildHomePage() {
+        final List<String> bannerTexts = [
+      'assets/promo1.jpg',
+      'assets/promo2.jpg',
+    ];
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+             PromoBannerSlider(
+                  banners: bannerTexts), // Menggunakan PromoBannerSlider di sini
+              const SizedBox(height: 10),
             _buildIconRow(),
             SizedBox(height: 25),
             _buildTitleRow('Daftar Paket', PencarianView()),
@@ -94,41 +104,58 @@ class HomeView extends GetView<HomeController> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _buildIconContainer(Icons.airplanemode_active, "Umroh"),
+        _buildIconContainer(
+          Icons.airplanemode_active,
+          "Umroh",
+          () => Get.toNamed(Routes.UMROH_PAGE),
+        ),
         SizedBox(width: 13),
-        _buildIconContainer(Icons.location_city, "Haji"),
+        _buildIconContainer(
+            Icons.location_city, "Haji", () => Get.toNamed(Routes.HAJI_PAGE)),
         SizedBox(width: 13),
-        _buildIconContainer(Icons.beach_access, "Trip"),
+        _buildIconContainer(
+            Icons.beach_access, "Trip", () => Get.toNamed(Routes.TRIP_PAGE)),
       ],
     );
   }
 
-  Widget _buildIconContainer(IconData icon, String label) {
-    return Container(
-      decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 197, 195, 195),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      width: 110,
-      height: 110,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            icon,
-            size: 50,
-            color: Color.fromRGBO(60, 42, 152, 1),
-          ),
-          SizedBox(height: 8),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
+  Widget _buildIconContainer(IconData icon, String label, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.3),
+              spreadRadius: 2,
+              blurRadius: 5,
+              offset: Offset(0, 3),
             ),
-          ),
-        ],
+          ],
+        ),
+        width: 110,
+        height: 110,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              size: 50,
+              color: Color.fromRGBO(60, 42, 152, 1),
+            ),
+            SizedBox(height: 8),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -164,7 +191,7 @@ class HomeView extends GetView<HomeController> {
 
   Widget _buildPackageList() {
     return SizedBox(
-      height: 326,
+      height: 329,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         padding: EdgeInsets.symmetric(horizontal: 10),
@@ -183,57 +210,62 @@ class HomeView extends GetView<HomeController> {
 
   Widget _buildPackageContainer(int index) {
     final paket = controller.paket[index];
-    return Container(
-      width: 226,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: Offset(0, 3),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 150,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(paket.image),
-                fit: BoxFit.cover,
-              ),
-              borderRadius: BorderRadius.vertical(
-                top: Radius.circular(10),
-              ),
+    return GestureDetector(
+      onTap: () => Get.toNamed(Routes.PAKETDETAIL, arguments: paket),
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 10),
+        width: 226,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.3),
+              spreadRadius: 2,
+              blurRadius: 5,
+              offset: Offset(0, 3),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  paket.nama,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 150,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(paket.image),
+                  fit: BoxFit.cover,
                 ),
-                SizedBox(height: 5),
-                _buildInfoRow(Icons.date_range_outlined, paket.tanggal),
-                SizedBox(height: 5),
-                _buildInfoRow(Icons.airplanemode_active_outlined, paket.transportasi),
-                SizedBox(height: 10),
-                _buildPriceRow(paket.harga),
-              ],
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(10),
+                ),
+              ),
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    paket.nama,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 5),
+                  _buildInfoRow(Icons.date_range_outlined, paket.tanggal),
+                  SizedBox(height: 5),
+                  _buildInfoRow(
+                      Icons.airplanemode_active_outlined, paket.transportasi),
+                  SizedBox(height: 10),
+                  _buildPriceRow(paket.harga),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -260,21 +292,19 @@ class HomeView extends GetView<HomeController> {
   }
 }
 
-
-  // Helper widget to build an information row with an icon and text
-  Widget _buildInfoRow(IconData icon, String text) {
-    return Row(
-      children: [
-        Icon(icon, size: 20, color: Colors.grey),
-        SizedBox(width: 8),
-        Text(
-          text,
-          style: TextStyle(
-            fontSize: 14,
-            color: Colors.black,
-          ),
+// Helper widget to build an information row with an icon and text
+Widget _buildInfoRow(IconData icon, String text) {
+  return Row(
+    children: [
+      Icon(icon, size: 20, color: Colors.grey),
+      SizedBox(width: 8),
+      Text(
+        text,
+        style: TextStyle(
+          fontSize: 14,
+          color: Colors.black,
         ),
-      ],
-    );
-  }
-
+      ),
+    ],
+  );
+}

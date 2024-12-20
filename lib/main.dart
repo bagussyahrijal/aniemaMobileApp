@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:mobileapp/app/controllers/auth_controller.dart';
 import 'package:mobileapp/app/modules/home/bindings/home_binding.dart';
 import 'package:mobileapp/app/routes/app_pages.dart';
+import 'package:mobileapp/app/services/paket_controller.dart';
 import 'package:mobileapp/app/utils/loading_view.dart';
 import 'app/modules/welcome/views/welcome_view.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -16,12 +17,14 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  Get.put(PaketController(), permanent: true);    
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
 
 final authC = Get.put(AuthController(), permanent: true);
+
 
   @override
   Widget build(BuildContext context) {

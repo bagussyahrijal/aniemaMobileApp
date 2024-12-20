@@ -12,4 +12,8 @@ abstract class Routes {
   static const LOGIN = '/login'; // Definisikan rute login
   static const SIGNUP = '/signup'; // Definisikan rute signup
   static const PAKETDETAIL = '/paketdetail';
+  static const PROFILE = '/profil';
+  static const UMROH_PAGE = '/umroh-page';
+  static const HAJI_PAGE = '/haji-page';
+  static const TRIP_PAGE = '/trip-page';
 }

@@ -1,50 +1,27 @@
-// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
-
 import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
 import 'package:mobileapp/app/modules/pencarian/controllers/pencarian_controller.dart';
 import 'package:mobileapp/app/routes/app_pages.dart';
 
-class PencarianView extends StatelessWidget {
+import '../controllers/haji_page_controller.dart';
+
+class HajiPageView extends GetView<HajiPageController> {
+  final PencarianController pencarianC = Get.put(PencarianController());
+
+  HajiPageView({super.key});
   @override
   Widget build(BuildContext context) {
-    // Register the PencarianController
-    Get.put(PencarianController());
-
     return Scaffold(
       appBar: AppBar(
-        title: Text("Pencarian Paket"),
-        actions: [
-          // Filter dropdown in the AppBar (left-aligned)
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Obx(() {
-              // Dynamically set the filter text based on selectedFilter value
-              String displayText = Get.find<PencarianController>().selectedFilter.value;
-              return DropdownButton<String>(
-                value: displayText,
-                onChanged: (newValue) {
-                  // Update the selected filter value in the controller
-                  Get.find<PencarianController>().selectedFilter.value = newValue!;
-                },
-                items: <String>['All', 'Umroh', 'Haji', 'Trip']
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              );
-            }),
-          ),
-        ],
+        title: Text("Paket Haji"),
       ),
       body: Column(
         children: [
           // Display filtered packages
           Expanded(
             child: Obx(() {
-              var paketList = Get.find<PencarianController>().filteredPaket;
+              var paketList = pencarianC.filteredPaketHaji;
 
               // If the list is empty, show a loading indicator or message
               if (paketList.isEmpty) {
@@ -64,11 +41,12 @@ class PencarianView extends StatelessWidget {
                     child: ListTile(
                       contentPadding: EdgeInsets.all(10),
                       leading: SizedBox(
-                        width: 120,  // Increased width for a larger image
-                        height: 120,  // Increased height for a larger image
+                        width: 120, // Increased width for a larger image
+                        height: 120, // Increased height for a larger image
                         child: Image.asset(
                           paket.image, // Package image
-                          fit: BoxFit.contain,  // Ensures image is fully displayed without cropping
+                          fit: BoxFit
+                              .contain, // Ensures image is fully displayed without cropping
                         ),
                       ),
                       title: Text(
@@ -88,7 +66,6 @@ class PencarianView extends StatelessWidget {
                       ),
                       trailing: Icon(Icons.arrow_forward),
                       onTap: () => Get.toNamed(Routes.PAKETDETAIL,arguments: paket),
-
                     ),
                   );
                 },

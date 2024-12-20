@@ -1,9 +1,12 @@
+// ignore_for_file: avoid_print
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:mobileapp/app/routes/app_pages.dart';
 
 class AuthController extends GetxController {
   FirebaseAuth auth = FirebaseAuth.instance;
+  var isLoggedIn = false.obs;
 
   Stream<User?> get streamAuthStatus => auth.authStateChanges();
 
@@ -13,6 +16,7 @@ class AuthController extends GetxController {
         email: email,
         password: password,
       );
+      isLoggedIn = true.obs;
       Get.offAllNamed(Routes.LOGIN);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -29,6 +33,7 @@ class AuthController extends GetxController {
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
+      isLoggedIn = true.obs;
       Get.offAllNamed(Routes.HOME);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -41,5 +46,6 @@ class AuthController extends GetxController {
 
   void logout()async{
     await FirebaseAuth.instance.signOut();
+      isLoggedIn = false.obs;
   }
 }

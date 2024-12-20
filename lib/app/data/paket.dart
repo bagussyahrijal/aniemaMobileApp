@@ -6,6 +6,9 @@ class Paket {
   final String hotel;
   final String category;
   final double harga;  // Tambahkan properti harga
+  final String itinerary;
+  final String jenis;
+
 
   Paket({
     required this.nama,
@@ -15,5 +18,7 @@ class Paket {
     required this.hotel,
     required this.category,
     required this.harga,  // Tambahkan harga ke konstruktor
+    required this.itinerary,
+    required this.jenis
   });
 }

@@ -15,7 +15,7 @@ class LoginView extends GetView<LoginController> {
         leading: IconButton(
           icon: Icon(Icons.close, color: Colors.black),
           onPressed: () {
-            Get.back(); // Go back to the previous page
+            Get.back(); 
           },
         ),
         elevation: 0,

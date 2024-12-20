@@ -9,6 +9,6 @@ class HomeBinding extends Bindings {
   void dependencies() {
     Get.put(HomeController());
     Get.put(LoginController());
-    Get.put(SignUpController());
+    Get.put(SignUpController());    
   }
 }

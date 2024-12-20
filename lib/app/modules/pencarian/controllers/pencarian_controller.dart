@@ -1,21 +1,23 @@
 import 'package:get/get.dart';
 import 'package:mobileapp/app/data/paket.dart';
-import 'package:mobileapp/app/services/paket_service.dart'; 
+import 'package:mobileapp/app/services/paket_controller.dart';
 
 class PencarianController extends GetxController {
-  var paket = <Paket>[].obs;  // List of all packages
+  PaketController paketC = Get.find();
+
+  var paket = <Paket>[].obs; // List of all packages
   var selectedFilter = 'All'.obs; // Selected filter value
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
-    fetchPaket();
+    await fetchPaket();
+    print(paket);
   }
 
   // Fetch the paket list from PaketService
-  void fetchPaket() async {
-    var fetchedPaket = await PaketService().fetchPaket();
-    paket.value = fetchedPaket;
+  Future<void> fetchPaket() async {
+    paket.value = paketC.paketList;
   }
 
   // Getter to filter the paket list based on the selected category
@@ -28,5 +30,21 @@ class PencarianController extends GetxController {
         return paket.category == selectedFilter.value;
       }).toList();
     }
+  }
+
+  List<Paket> get filteredPaketUmroh {
+    return paket.where((paket) {
+      return paket.category == 'Umroh';
+    }).toList();
+  }
+  List<Paket> get filteredPaketHaji {
+    return paket.where((paket) {
+      return paket.category == 'Haji';
+    }).toList();
+  }
+  List<Paket> get filteredPaketTrip {
+    return paket.where((paket) {
+      return paket.category == 'Trip';
+    }).toList();
   }
 }
