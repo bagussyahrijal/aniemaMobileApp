@@ -44,12 +44,12 @@ final PencarianController pencarianC = Get.put(PencarianController());
                         width: 120,  // Increased width for a larger image
                         height: 120,  // Increased height for a larger image
                         child: Image.asset(
-                          paket.image, // Package image
+                          paket.image.value, // Package image
                           fit: BoxFit.contain,  // Ensures image is fully displayed without cropping
                         ),
                       ),
                       title: Text(
-                        paket.nama, // Package name
+                        paket.nama.value, // Package name
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,

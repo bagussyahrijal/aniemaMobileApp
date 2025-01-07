@@ -1,23 +1,37 @@
 // ignore_for_file: avoid_print
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:mobileapp/app/routes/app_pages.dart';
 
 class AuthController extends GetxController {
   FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   var isLoggedIn = false.obs;
+  var imagePath = ''.obs;
+  var userName = ''.obs;
+  var emailC = ''.obs;
 
   Stream<User?> get streamAuthStatus => auth.authStateChanges();
 
-  void signup(String email, String password) async {
+  @override
+  void onInit() {
+    super.onInit();
+    loadUserData();
+  }
+
+  void signup(String email, String password, String username) async {
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+      emailC.value = email;
+      userName.value = username;
       isLoggedIn = true.obs;
-      Get.offAllNamed(Routes.LOGIN);
+      await _saveUserProfile();
+      Get.offAllNamed(Routes.PROFILE);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
@@ -48,4 +62,49 @@ class AuthController extends GetxController {
     await FirebaseAuth.instance.signOut();
       isLoggedIn = false.obs;
   }
+
+   Future<void> _saveUserProfile() async {
+    if (emailC.value.isNotEmpty) {
+      try {
+        await _firestore.collection('users').doc(emailC.value).set({
+          'userName': userName.value,
+          'profileImagePath': imagePath.value,
+          'email': emailC.value,
+        }, SetOptions(merge: true));
+        Get.snackbar('Simpan Profil', 'Profil berhasil disimpan.');
+      } catch (e) {
+        Get.snackbar('Simpan Profil', 'Gagal menyimpan data: ${e.toString()}');
+      }
+    }
+  }
+
+  Future<void> loadUserData() async {
+    if (auth.currentUser != null) {
+      emailC.value = auth.currentUser!.email!;
+      try {
+        DocumentSnapshot userDoc =
+            await _firestore.collection('users').doc(emailC.value).get(const GetOptions(source: Source.server));
+        if (userDoc.exists) {
+          userName.value = userDoc['userName'] ?? emailC.value.split('@')[0];
+          imagePath.value = userDoc['profileImagePath'] ?? '';
+          isLoggedIn.value = true;
+        } else {
+          Get.snackbar('Data Pengguna', 'Data pengguna tidak ditemukan.');
+        }
+        print(userName);
+      } catch (e) {
+        if(e is FirebaseException){
+          if(e.message == "The service is currently unavailable. This is a most likely a transient condition and may be corrected by retrying with a backoff."){
+
+          Get.snackbar('Hi', 'error jaringanmu');
+          }
+        }
+      }
+    }
+  }
+
+  void loginAdmin(){
+    Get.offAllNamed(Routes.ADMIN);
+  }
+
 }

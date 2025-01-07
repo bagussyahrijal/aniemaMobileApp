@@ -1,6 +1,14 @@
 import 'package:get/get.dart';
 
 import '../data/paket.dart';
+import '../modules/admin/bindings/admin_binding.dart';
+import '../modules/admin/views/admin_view.dart';
+import '../modules/admin_gallery/bindings/admin_gallery_binding.dart';
+import '../modules/admin_gallery/views/admin_gallery_view.dart';
+import '../modules/admin_paket/bindings/admin_paket_binding.dart';
+import '../modules/admin_paket/views/admin_paket_view.dart';
+import '../modules/edit_paket/bindings/edit_paket_binding.dart';
+import '../modules/edit_paket/views/edit_paket_view.dart';
 import '../modules/gallery/views/gallery_view.dart';
 import '../modules/haji_page/bindings/haji_page_binding.dart';
 import '../modules/haji_page/views/haji_page_view.dart';
@@ -71,6 +79,26 @@ class AppPages {
       name: Routes.TRIP_PAGE,
       page: () => TripPageView(),
       binding: TripPageBinding(),
+    ),
+    GetPage(
+      name: Routes.ADMIN,
+      page: () => const AdminView(),
+      binding: AdminBinding(),
+    ),
+    GetPage(
+      name: Routes.ADMIN_GALLERY,
+      page: () => AdminGalleryView(),
+      binding: AdminGalleryBinding(),
+    ),
+    GetPage(
+      name: Routes.ADMIN_PAKET,
+      page: () => AdminPaketView(),
+      binding: AdminPaketBinding(),
+    ),
+    GetPage(
+      name: Routes.EDIT_PAKET,
+      page: () => EditPaketView(),
+      binding: EditPaketBinding(),
     ),
   ];
 }

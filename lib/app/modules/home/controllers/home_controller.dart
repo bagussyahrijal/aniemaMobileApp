@@ -14,15 +14,14 @@ class HomeController extends GetxController {
     selectedIndexBottomBar.value = index;
   }
 
-
   Future<void> loadPaket() async {
     try {
-      await paketService.fetchPaket(); 
-
+      await paketService.fetchPaket();
       var allPaket = paketService.paketList;
       print("All paket fetched in HomeController: ${allPaket.length} items");
 
       paket.value = allPaket.take(3).toList();
+      paket.refresh();
       print("First 3 paket: ${paket.length} items");
     } catch (e) {
       print("Error fetching paket: $e");
@@ -32,7 +31,14 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    loadPaket(); 
+    loadPaket();
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+    print('terdispose');
+    Get.delete<HomeController>();
   }
 
   List<Paket> get firstThreePaket => paket.take(3).toList();

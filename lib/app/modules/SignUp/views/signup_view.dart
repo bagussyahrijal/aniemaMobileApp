@@ -68,7 +68,7 @@ class SignUpView extends GetView<SignUpController> {
               ),
               SizedBox(height: 20),
               Obx(() => ElevatedButton(
-                onPressed: () => authC.signup(controller.emailController.text, controller.passwordController.text),
+                onPressed: () => authC.signup(controller.emailController.text, controller.passwordController.text, controller.nameController.text),
         
                     child: controller.isLoading.value
                         ? CircularProgressIndicator(

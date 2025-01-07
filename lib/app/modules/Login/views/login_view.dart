@@ -27,7 +27,6 @@ class LoginView extends GetView<LoginController> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // App logo or title
               Center(
                 child: Column(
                   children: [
@@ -74,27 +73,11 @@ class LoginView extends GetView<LoginController> {
                   prefixIcon: Icon(Icons.lock),
                 ),
               )),
-              SizedBox(height: 10),
-        
-              // Forgot password
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: () {
-                    // Navigate to forgot password page
-                    // Misalnya: Get.toNamed('/forgot-password');
-                  },
-                  child: Text(
-                    "Lupa Password?",
-                    style: TextStyle(color: Colors.blue),
-                  ),
-                ),
-              ),
               SizedBox(height: 20),
         
               // Login button
               Obx(() => ElevatedButton(
-                onPressed: () => authC.login(controller.emailController.text, controller.passwordController.text),
+                onPressed: () => controller.emailController.text == "admin@gmail.com" && controller.passwordController.text == "admin123" ? authC.loginAdmin() : authC.login(controller.emailController.text, controller.passwordController.text)  ,
                 child: controller.isLoading.value
                     ? CircularProgressIndicator(color: Colors.white)
                     : Text("LOGIN"),

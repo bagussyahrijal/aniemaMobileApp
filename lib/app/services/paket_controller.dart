@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:get/get.dart';
 import 'package:mobileapp/app/data/paket.dart';
 
@@ -21,119 +19,125 @@ class PaketController extends GetxController {
       Paket(
           nama: 'Ziarah Negeri Para Nabi 10 Hari 8 Malam',
           image: 'assets/content-1.jpg',
-          tanggal: '30 September 2025',
+          tanggal: '2025-09-30', // Format changed to yyyy-mm-dd
           transportasi: 'Garuda Indonesia',
           hotel: 'Bintang 5',
           category: 'Umroh',
-          harga: double.parse('25000000'),
-          itinerary: "", // Parse the string as a double
+          harga: int.parse('25000000'),
+          itinerary: "",
           jenis: "Umroh Plus"),
       Paket(
           nama: 'Jakarta - Ancol - Dufan - Kota Tua',
           image: 'assets/content-4.png',
-          tanggal: '15 October 2025',
+          tanggal: '2025-10-15', // Format changed to yyyy-mm-dd
           transportasi: 'Lion Air',
           hotel: 'Bintang 4',
           category: 'Trip',
-          harga: double.parse('5000000'), // Parse the string as a double
+          harga: int.parse('5000000'),
           itinerary: "",
           jenis: "Trip"),
       Paket(
           nama: 'Tour 3 Negara',
           image: 'assets/content-2.jpg',
-          tanggal: '25 November 2025',
+          tanggal: '2025-11-25', // Format changed to yyyy-mm-dd
           transportasi: 'AirAsia',
           hotel: 'Bintang 5',
           category: 'Trip',
-          harga: double.parse('6900000'), // Parse the string as a double
+          harga: int.parse('6900000'),
           itinerary: "",
-                  jenis: "Trip"
-
-          ),
+          jenis: "Trip"),
       Paket(
           nama: '3 Day Trip Lombok',
           image: 'assets/content-3.jpg',
-          tanggal: '25 November 2025',
+          tanggal: '2025-11-25', // Format changed to yyyy-mm-dd
           transportasi: 'AirAsia',
           hotel: 'Bintang 3',
           category: 'Trip',
-          harga: double.parse('6370000'), // Parse the string as a double
+          harga: int.parse('6370000'),
           itinerary: "",
-                  jenis: "Trip"
-
-          ),
+          jenis: "Trip"),
       Paket(
           nama: 'Jakarta - Masjid Istiqlal - Kota Tua',
           image: 'assets/content-5.jpg',
-          tanggal: '25 November 2025',
+          tanggal: '2025-11-25', // Format changed to yyyy-mm-dd
           transportasi: 'AirAsia',
           hotel: 'Bintang 3',
           category: 'Trip',
-          harga: double.parse('185000'), // Parse the string as a double
+          harga: int.parse('185000'),
           itinerary: "",
-                  jenis: "Trip"
-
-          ),
+          jenis: "Trip"),
       Paket(
           nama: 'Jakarta - Monas - Taman Mini',
           image: 'assets/content-6.jpg',
-          tanggal: '25 November 2025',
+          tanggal: '2025-11-25', // Format changed to yyyy-mm-dd
           transportasi: 'AirAsia',
           hotel: 'Bintang 3',
           category: 'Trip',
-          harga: double.parse('195000'), // Parse the string as a double
+          harga: int.parse('195000'),
           itinerary: "",
-          jenis: "Trip"
-          ),
+          jenis: "Trip"),
       Paket(
           nama: 'Jakarta - Taman Mini - Kota Tua',
           image: 'assets/content-7.jpg',
-          tanggal: '25 November 2025',
+          tanggal: '2025-11-25', // Format changed to yyyy-mm-dd
           transportasi: 'AirAsia',
           hotel: 'Bintang 3',
           category: 'Trip',
-          harga: double.parse('230000'), // Parse the string as a double
+          harga: int.parse('230000'),
           itinerary: "",
-          jenis: "Trip"
-          ),
+          jenis: "Trip"),
       Paket(
           nama: 'Bogor - Mini Mania - Heha Waterfall - Pusat Oleh-oleh',
           image: 'assets/content-8.jpg',
-          tanggal: '25 November 2025',
+          tanggal: '2025-11-25', // Format changed to yyyy-mm-dd
           transportasi: 'AirAsia',
           hotel: 'Bintang 3',
           category: 'Trip',
-          harga: double.parse('4000000'), // Parse the string as a double
+          harga: int.parse('4000000'),
           itinerary: "",
-          jenis: "Trip"
-          ),
+          jenis: "Trip"),
       Paket(
           nama: 'Bandung - Masjid AL JABBAR - Great Asia Afrika',
           image: 'assets/content-9.jpg',
-          tanggal: '25 November 2025',
+          tanggal: '2025-11-25', // Format changed to yyyy-mm-dd
           transportasi: 'AirAsia',
           hotel: 'Bintang 3',
           category: 'Trip',
-          harga: double.parse('285000'), // Parse the string as a double
+          harga: int.parse('285000'),
           itinerary: "",
-          jenis: "Trip"
-          ),
+          jenis: "Trip"),
       Paket(
           nama: 'Haji 2025 Paket Ibadah Haji',
           image: 'assets/content-1.jpg',
-          tanggal: '1 July 2025',
+          tanggal: '2025-07-01', // Format changed to yyyy-mm-dd
           transportasi: 'Saudi Airlines',
           hotel: 'Bintang 5',
           category: 'Haji',
-          harga: double.parse('45000000'), // Parse the string as a double
+          harga: int.parse('45000000'),
           itinerary: "",
-          jenis: "Trip"
-          ),
+          jenis: "Trip"),
     ];
     paketList.addAll(initialdata);
   }
 
   void addPaket(Paket paket) {
     paketList.add(paket);
+    paketList.refresh();
+  }
+
+  // Perbarui data
+  void updatePaket(int index, Paket updatedPaket) {
+    if (index < paketList.length) {
+      paketList[index] = updatedPaket;
+      paketList.refresh();
+    }
+  }
+
+  // Hapus data
+  void deletePaket(int index) {
+    if (index < paketList.length) {
+      paketList.removeAt(index);
+      paketList.refresh();
+    }
   }
 }

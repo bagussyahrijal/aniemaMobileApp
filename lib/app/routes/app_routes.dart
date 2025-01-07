@@ -16,4 +16,8 @@ abstract class Routes {
   static const UMROH_PAGE = '/umroh-page';
   static const HAJI_PAGE = '/haji-page';
   static const TRIP_PAGE = '/trip-page';
+  static const ADMIN = '/admin';
+  static const ADMIN_GALLERY = '/admin-gallery';
+  static const ADMIN_PAKET = '/admin-paket';
+  static const EDIT_PAKET = '/edit-paket';
 }

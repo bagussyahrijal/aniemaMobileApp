@@ -10,9 +10,11 @@ import 'package:mobileapp/app/modules/pencarian/views/pencarian_view.dart';
 import 'package:mobileapp/app/modules/profil/views/profil_view.dart';
 import 'package:mobileapp/app/modules/transaksi/views/transaksi_view.dart';
 import 'package:mobileapp/app/routes/app_pages.dart';
+import 'package:mobileapp/app/services/paket_controller.dart';
 import 'package:mobileapp/app/widgets/promo_banner_slider.dart';
 
 class HomeView extends GetView<HomeController> {
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,10 +72,11 @@ class HomeView extends GetView<HomeController> {
         ),
       ),
     );
+    
   }
 
   Widget _buildHomePage() {
-        final List<String> bannerTexts = [
+    final List<String> bannerTexts = [
       'assets/promo1.jpg',
       'assets/promo2.jpg',
     ];
@@ -83,9 +86,9 @@ class HomeView extends GetView<HomeController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-             PromoBannerSlider(
-                  banners: bannerTexts), // Menggunakan PromoBannerSlider di sini
-              const SizedBox(height: 10),
+            PromoBannerSlider(
+                banners: bannerTexts), // Menggunakan PromoBannerSlider di sini
+            const SizedBox(height: 10),
             _buildIconRow(),
             SizedBox(height: 25),
             _buildTitleRow('Daftar Paket', PencarianView()),
@@ -190,87 +193,97 @@ class HomeView extends GetView<HomeController> {
   }
 
   Widget _buildPackageList() {
-    return SizedBox(
-      height: 329,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        itemCount: controller.paket.length,
-        itemBuilder: (context, index) {
-          return Row(
-            children: [
-              _buildPackageContainer(index),
-              SizedBox(width: 13),
-            ],
-          );
-        },
-      ),
-    );
+    final PaketController paketC = Get.find<PaketController>();
+
+    return Obx(() {
+      if (paketC.paketList.isEmpty) {
+        return Center(
+          child: Text('Belum ada paket yang tersedia'),
+        );
+      }
+      return SizedBox(
+        height: 329,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          itemCount: controller.paket.length,
+          itemBuilder: (context, index) {
+            return Row(
+              children: [
+                _buildPackageContainer(index),
+                SizedBox(width: 13),
+              ],
+            );
+          },
+        ),
+      );
+    });
   }
 
   Widget _buildPackageContainer(int index) {
     final paket = controller.paket[index];
     return GestureDetector(
       onTap: () => Get.toNamed(Routes.PAKETDETAIL, arguments: paket),
-      child: Container(
-        margin: EdgeInsets.symmetric(vertical: 10),
-        width: 226,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.3),
-              spreadRadius: 2,
-              blurRadius: 5,
-              offset: Offset(0, 3),
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              height: 150,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(paket.image),
-                  fit: BoxFit.cover,
+      child: Obx(() => Container(
+            margin: EdgeInsets.symmetric(vertical: 10),
+            width: 226,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.3),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: Offset(0, 3),
                 ),
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(10),
-                ),
-              ),
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    paket.nama,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  height: 150,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(paket.image.value),
+                      fit: BoxFit.cover,
+                    ),
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(10),
                     ),
                   ),
-                  SizedBox(height: 5),
-                  _buildInfoRow(Icons.date_range_outlined, paket.tanggal),
-                  SizedBox(height: 5),
-                  _buildInfoRow(
-                      Icons.airplanemode_active_outlined, paket.transportasi),
-                  SizedBox(height: 10),
-                  _buildPriceRow(paket.harga),
-                ],
-              ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Obx(() => Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            paket.nama.value,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 5),
+                          _buildInfoRow(
+                              Icons.date_range_outlined, paket.tanggal.value),
+                          SizedBox(height: 5),
+                          _buildInfoRow(Icons.airplanemode_active_outlined,
+                              paket.transportasi.value),
+                          SizedBox(height: 10),
+                          _buildPriceRow(paket.harga.value),
+                        ],
+                      )),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          )),
     );
   }
 
-  Widget _buildPriceRow(double harga) {
+  Widget _buildPriceRow(int harga) {
     return Row(
       children: [
         Icon(
@@ -308,3 +321,4 @@ Widget _buildInfoRow(IconData icon, String text) {
     ],
   );
 }
+

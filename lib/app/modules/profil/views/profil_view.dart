@@ -104,8 +104,8 @@ class ProfilView extends GetView<ProfilController> {
               // User Info
               Obx(() {
                 return Text(
-                  controller.username.value.isNotEmpty
-                      ? controller.username.value
+                  authC.userName.value.isNotEmpty
+                      ? authC.userName.value
                       : "Nama Pengguna",
                   style: TextStyle(
                     fontSize: 18,
@@ -116,20 +116,9 @@ class ProfilView extends GetView<ProfilController> {
               }),
               Obx(() {
                 return Text(
-                  controller.email.value.isNotEmpty
-                      ? controller.email.value
+                  authC.emailC.value.isNotEmpty
+                      ? authC.emailC.value
                       : "email@example.com",
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.black,
-                  ),
-                );
-              }),
-              Obx(() {
-                return Text(
-                  controller.phoneNumber.value.isNotEmpty
-                      ? controller.phoneNumber.value
-                      : "No. Telepon",
                   style: TextStyle(
                     fontSize: 14,
                     color: Colors.black,
@@ -163,7 +152,8 @@ class ProfilView extends GetView<ProfilController> {
                 title: Text("Logout"),
                 trailing: Icon(Icons.arrow_forward_ios, size: 16),
                 onTap: () {
-                  authC.logout(); // Call the logout function in the controller
+                  authC.logout();
+                  Get.offAllNamed(Routes.HOME); // Call the logout function in the controller
                 },
               ),
 
