@@ -90,16 +90,7 @@ class ProfilView extends GetView<ProfilController> {
           ),
           child: Column(
             children: [
-              // Profile Icon
-              CircleAvatar(
-                radius: 40,
-                backgroundColor: Colors.white,
-                child: Icon(
-                  Icons.image,
-                  size: 40,
-                  color: Colors.grey,
-                ),
-              ),
+
               SizedBox(height: 20),
               // User Info
               Obx(() {
@@ -135,18 +126,7 @@ class ProfilView extends GetView<ProfilController> {
                 onTap: () {
                   Get.toNamed("/edit-profile"); // Navigate to edit profile page
                 },
-              ),
-              // Change Password
-              ListTile(
-                leading: Icon(Icons.lock, color: Colors.black),
-                title: Text("Ganti Password"),
-                trailing: Icon(Icons.arrow_forward_ios, size: 16),
-                onTap: () {
-                  Get.toNamed(
-                      "/change-password"); // Navigate to change password page
-                },
-              ),
-              // Logout
+              ),             
               ListTile(
                 leading: Icon(Icons.logout, color: Colors.black),
                 title: Text("Logout"),

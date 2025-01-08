@@ -1,12 +1,14 @@
 import 'package:get/get.dart';
+import 'package:mobileapp/app/modules/admin_gallery/views/admin_gallery_view.dart';
 
 import '../data/paket.dart';
 import '../modules/admin/bindings/admin_binding.dart';
 import '../modules/admin/views/admin_view.dart';
 import '../modules/admin_gallery/bindings/admin_gallery_binding.dart';
-import '../modules/admin_gallery/views/admin_gallery_view.dart';
 import '../modules/admin_paket/bindings/admin_paket_binding.dart';
 import '../modules/admin_paket/views/admin_paket_view.dart';
+import '../modules/edit_gallery/bindings/edit_gallery_binding.dart';
+import '../modules/edit_gallery/views/edit_gallery_view.dart';
 import '../modules/edit_paket/bindings/edit_paket_binding.dart';
 import '../modules/edit_paket/views/edit_paket_view.dart';
 import '../modules/gallery/views/gallery_view.dart';
@@ -99,6 +101,11 @@ class AppPages {
       name: Routes.EDIT_PAKET,
       page: () => EditPaketView(),
       binding: EditPaketBinding(),
+    ),
+    GetPage(
+      name: Routes.EDIT_GALLERY,
+      page: () => EditGalleryView(),
+      binding: EditGalleryBinding(),
     ),
   ];
 }

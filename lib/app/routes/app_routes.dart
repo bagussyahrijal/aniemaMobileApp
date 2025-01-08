@@ -20,4 +20,5 @@ abstract class Routes {
   static const ADMIN_GALLERY = '/admin-gallery';
   static const ADMIN_PAKET = '/admin-paket';
   static const EDIT_PAKET = '/edit-paket';
+  static const EDIT_GALLERY = '/edit-gallery';
 }

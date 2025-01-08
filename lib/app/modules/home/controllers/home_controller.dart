@@ -34,11 +34,14 @@ class HomeController extends GetxController {
     loadPaket();
   }
 
-  @override
+  @override 
   void onClose() {
+    // Bersihkan resources
+    paket.close();
+    selectedIndexBottomBar.close();
+    
+    print('HomeController disposed');
     super.onClose();
-    print('terdispose');
-    Get.delete<HomeController>();
   }
 
   List<Paket> get firstThreePaket => paket.take(3).toList();

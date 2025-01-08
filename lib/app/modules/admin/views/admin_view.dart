@@ -63,7 +63,7 @@ class AdminView extends GetView<AdminController> {
                         trailing: Icon(Icons.arrow_forward_ios, size: 16),
                         onTap: () {
                           Get.toNamed(
-                              "/change-password"); // Navigate to change password page
+                              Routes.ADMIN_GALLERY); // Navigate to change password page
                         },
                       ),
                       // Logout

@@ -48,7 +48,7 @@ class LoginView extends GetView<LoginController> {
               SizedBox(height: 30),
         
               // Email input field
-              Obx(() => TextField(
+              TextField(
                 controller: controller.emailController,
                 onChanged: controller.validateEmail,
                 keyboardType: TextInputType.emailAddress,
@@ -58,25 +58,24 @@ class LoginView extends GetView<LoginController> {
                   errorText: controller.isEmailValid.value ? null : "Invalid email",
                   prefixIcon: Icon(Icons.email),
                 ),
-              )),
+              ),
               SizedBox(height: 20),
         
               // Password input field
-              Obx(() => TextField(
+              TextField(
                 controller: controller.passwordController,
                 onChanged: controller.validatePassword,
                 obscureText: true,
                 decoration: InputDecoration(
                   labelText: "Password",
                   border: OutlineInputBorder(),
-                  errorText: controller.isPasswordValid.value ? null : "Password must be at least 6 characters",
                   prefixIcon: Icon(Icons.lock),
                 ),
-              )),
+              ),
               SizedBox(height: 20),
         
               // Login button
-              Obx(() => ElevatedButton(
+              ElevatedButton(
                 onPressed: () => controller.emailController.text == "admin@gmail.com" && controller.passwordController.text == "admin123" ? authC.loginAdmin() : authC.login(controller.emailController.text, controller.passwordController.text)  ,
                 child: controller.isLoading.value
                     ? CircularProgressIndicator(color: Colors.white)
@@ -85,7 +84,7 @@ class LoginView extends GetView<LoginController> {
                   padding: EdgeInsets.symmetric(vertical: 15),
                   backgroundColor: Colors.blue,
                 ),
-              )),
+              ),
         
               SizedBox(height: 10),
         

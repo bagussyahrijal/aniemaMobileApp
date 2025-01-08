@@ -3,6 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mobileapp/app/modules/Gallery/controllers/gallery_controller.dart';
 import 'package:mobileapp/app/modules/Gallery/views/gallery_view.dart';
 import 'package:mobileapp/app/modules/home/controllers/home_controller.dart';
 import 'package:mobileapp/app/modules/pemesanan/views/pemesanan_view.dart';
@@ -14,7 +15,6 @@ import 'package:mobileapp/app/services/paket_controller.dart';
 import 'package:mobileapp/app/widgets/promo_banner_slider.dart';
 
 class HomeView extends GetView<HomeController> {
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,6 +26,7 @@ class HomeView extends GetView<HomeController> {
           width: 100,
           height: 100,
         ),
+
       ),
       body: Obx(() {
         return IndexedStack(
@@ -72,7 +73,6 @@ class HomeView extends GetView<HomeController> {
         ),
       ),
     );
-    
   }
 
   Widget _buildHomePage() {
@@ -97,6 +97,7 @@ class HomeView extends GetView<HomeController> {
             SizedBox(height: 15),
             _buildTitleRow('Gallery', GalleryView()),
             SizedBox(height: 15),
+            _buildPackageList2(),
           ],
         ),
       ),
@@ -220,6 +221,84 @@ class HomeView extends GetView<HomeController> {
     });
   }
 
+  Widget _buildPackageList2() {
+    final GalleryController galleryC = Get.find<GalleryController>();
+
+    return Obx(() {
+      if (galleryC.galleryItems.isEmpty) {
+        return Center(
+          child: Text('Belum ada dokumentasi yang tersedia'),
+        );
+      }
+      return SizedBox(
+        height: 250,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          itemCount: galleryC.galleryItems.length,
+          itemBuilder: (context, index) {
+            return Row(
+              children: [
+                _buildPackageContainer2(index),
+                SizedBox(width: 13),
+              ],
+            );
+          },
+        ),
+      );
+    });
+  }
+
+  Widget _buildPackageContainer2(int index) {
+    final GalleryController galleryC = Get.find();
+    final gallery = galleryC.galleryItems[index];
+
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10),
+      width: 226,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.3),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            height: 150,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image:
+                    AssetImage(gallery['image']!), // Akses dengan kunci 'image'
+                fit: BoxFit.cover,
+              ),
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(10),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Text(
+              gallery['title']!, // Akses dengan kunci 'title'
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildPackageContainer(int index) {
     final paket = controller.paket[index];
     return GestureDetector(
@@ -321,4 +400,3 @@ Widget _buildInfoRow(IconData icon, String text) {
     ],
   );
 }
-

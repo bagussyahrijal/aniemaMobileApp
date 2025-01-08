@@ -1,23 +1,51 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
+import 'package:mobileapp/app/modules/Gallery/controllers/gallery_controller.dart';
+import 'package:mobileapp/app/modules/edit_gallery/views/edit_gallery_view.dart';
 
-import '../controllers/admin_gallery_controller.dart';
+class AdminGalleryView extends StatelessWidget {
+  final GalleryController controller = Get.put(GalleryController());
 
-class AdminGalleryView extends GetView<AdminGalleryController> {
-  const AdminGalleryView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('AdminGalleryView'),
-        centerTitle: true,
-      ),
-      body: const Center(
-        child: Text(
-          'AdminGalleryView is working',
-          style: TextStyle(fontSize: 20),
-        ),
+      appBar: AppBar(title: Text('Gallery')),
+      body: Obx(() {
+        return ListView.builder(
+          itemCount: controller.galleryItems.length,
+          itemBuilder: (context, index) {
+            final item = controller.galleryItems[index];
+            return ListTile(
+              title: Text(item['title'] ?? ''),
+              subtitle: Text(item['image'] ?? ''),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.edit),
+                    onPressed: () {
+                      // Navigasi ke halaman edit dengan data item yang dipilih
+                      Get.to(() => EditGalleryView(), arguments: {'item': item, 'index': index});
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.delete),
+                    onPressed: () {
+                      controller.deleteGalleryItem(index);
+                    },
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      }),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Navigasi ke halaman edit tanpa data (untuk tambah item baru)
+          Get.to(() => EditGalleryView(), arguments: {'item': null, 'index': null});
+        },
+        child: Icon(Icons.add),
       ),
     );
   }

@@ -1,16 +1,17 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:mobileapp/app/data/paket.dart';
-
-import '../controllers/paketdetail_controller.dart';
+import 'package:mobileapp/app/modules/paketdetail/controllers/paketdetail_controller.dart';
+import 'package:mobileapp/app/modules/pemesanan/controllers/pemesanan_controller.dart';
 
 class PaketdetailView extends GetView<PaketdetailController> {
   final Paket paket;
+  final PemesananController pemesananController = Get.find();
+  final email = FirebaseAuth.instance.currentUser?.email ?? "";
 
-  const PaketdetailView({super.key, required this.paket});
+  PaketdetailView({super.key, required this.paket});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,10 +58,10 @@ class PaketdetailView extends GetView<PaketdetailController> {
                   color: Colors.white,
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.5), // Warna bayangan
-                      spreadRadius: 5, // Penyebaran bayangan
-                      blurRadius: 10, // Keburaman bayangan
-                      offset: Offset(3, 3), // Offset horizontal dan vertikal
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 5,
+                      blurRadius: 10,
+                      offset: Offset(3, 3),
                     ),
                   ],
                 ),
@@ -69,69 +70,35 @@ class PaketdetailView extends GetView<PaketdetailController> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "Nama Paket:",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    Text("Nama Paket:",
+                        style: TextStyle(fontWeight: FontWeight.bold)),
                     Text(paket.nama.value),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      "Jenis Paket:",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    SizedBox(height: 10),
+                    Text("Jenis Paket:",
+                        style: TextStyle(fontWeight: FontWeight.bold)),
                     Text(paket.jenis.value),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      "Tanggal:",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    SizedBox(height: 10),
+                    Text("Tanggal:",
+                        style: TextStyle(fontWeight: FontWeight.bold)),
                     Text(paket.tanggal.value),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      "Transportasi:",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    SizedBox(height: 10),
+                    Text("Transportasi:",
+                        style: TextStyle(fontWeight: FontWeight.bold)),
                     Text(paket.transportasi.value),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      "Hotel:",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    SizedBox(height: 10),
+                    Text("Hotel:",
+                        style: TextStyle(fontWeight: FontWeight.bold)),
                     Text(paket.hotel.value),
-                    SizedBox(
-                      height: 10,
-                    ),
+                    SizedBox(height: 10),
                   ],
                 ),
               ),
             ),
-            SizedBox(
-              height: 20,
-            ),
+            SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 13),
-              child: Text(
-                'Detail',
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-              ),
+              child: Text('Detail',
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
             ),
             SizedBox(
               width: double.infinity,
@@ -160,23 +127,16 @@ class PaketdetailView extends GetView<PaketdetailController> {
                                 Icons.list_rounded,
                                 size: 40,
                               )),
-                          SizedBox(
-                            width: 10,
-                          ),
+                          SizedBox(width: 10),
                           Text(
                             'Itinerary',
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                            ),
-                          )
+                            style: TextStyle(fontSize: 20, color: Colors.white),
+                          ),
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(
-                    width: 20,
-                  ),
+                  SizedBox(width: 20),
                   Container(
                     height: 80,
                     width: 160,
@@ -185,8 +145,8 @@ class PaketdetailView extends GetView<PaketdetailController> {
                         borderRadius: BorderRadius.circular(5),
                         color: Color.fromRGBO(37, 150, 94, 1)),
                     child: GestureDetector(
-                      onTap: () => Get.snackbar(
-                          'Error', 'Maaf Kontak Belum Tersedia'),
+                      onTap: () =>
+                          Get.snackbar('Error', 'Maaf Kontak Belum Tersedia'),
                       child: Row(
                         children: [
                           Container(
@@ -198,16 +158,11 @@ class PaketdetailView extends GetView<PaketdetailController> {
                                 Icons.call,
                                 size: 30,
                               )),
-                          SizedBox(
-                            width: 10,
-                          ),
+                          SizedBox(width: 10),
                           Text(
                             'Kontak',
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                            ),
-                          )
+                            style: TextStyle(fontSize: 20, color: Colors.white),
+                          ),
                         ],
                       ),
                     ),
@@ -215,9 +170,7 @@ class PaketdetailView extends GetView<PaketdetailController> {
                 ],
               ),
             ),
-            SizedBox(
-              height: 20,
-            ),
+            SizedBox(height: 20),
             Container(
               padding: EdgeInsets.all(16),
               color: Colors.grey,
@@ -229,41 +182,46 @@ class PaketdetailView extends GetView<PaketdetailController> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Harga',
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: const Color.fromARGB(255, 250, 182, 94),
-                                fontWeight: FontWeight.w600),
-                          ),
-                          Text(
-                            'Rp. ${paket.harga.toString()}',
-                            style: TextStyle(
-                              fontSize: 20,
-                            ),
-                          )
-                        ]),
-                    ElevatedButton(
-                        onPressed: () => {},
-                        style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 5),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5)),
-                            backgroundColor: Colors.lightBlue),
-                        child: Text(
-                          'Daftar',
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Harga',
                           style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w400),
-                        )),
+                              fontSize: 20,
+                              color: const Color.fromARGB(255, 250, 182, 94),
+                              fontWeight: FontWeight.w600),
+                        ),
+                        Text(
+                          'Rp. ${paket.harga.value}',
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
+                        ),
+                      ],
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        pemesananController.simpanKeranjang(email, paket);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5)),
+                        backgroundColor: Colors.lightBlue,
+                      ),
+                      child: Text(
+                        'Tambah ke Keranjang',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    ),
                   ],
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
