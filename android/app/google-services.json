@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "991956612851",
+    "project_id": "aniemamobileapp",
+    "storage_bucket": "aniemamobileapp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:991956612851:android:0d5ff7c289a350a74b2986",
+        "android_client_info": {
+          "package_name": "com.example.mobileapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClg71A8ceiErhv6crg5ePXB7USuSp4Xtk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
